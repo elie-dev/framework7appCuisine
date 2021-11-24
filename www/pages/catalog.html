@@ -4,22 +4,27 @@
       <div class="navbar-bg"></div>
       <div class="navbar-inner sliding">
         <div class="title">Catalog</div>
+        <div class="subnavbar">
+          <form class="searchbar">
+            <div class="searchbar-inner">
+              <div class="searchbar-input-wrap">
+                <input type="search" placeholder="Search" />
+                <i class="searchbar-icon"></i>
+                <span class="input-clear-button"></span>
+              </div>
+              <span class="searchbar-disable-button if-not-aurora">Cancel</span>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-    <div class="page-content catalog">
-      <div class="card card-expandable">
-        <!-- card content -->
-        <div class="card-content">
-          tet
-          <div class="card card-expandable">
-            <!-- card content -->
-            <div class="card-content">
-              tet
-              <!-- put all content here -->
-            </div>
-          </div>
-          <!-- put all content here -->
-        </div>
+    <div class="page-content">
+      <div class="list searchbar-found">
+        <ul class="catalog">
+        </ul>
+      </div>
+      <div class="block searchbar-not-found">
+        <div class="block-inner">Nothing found</div>
       </div>
     </div>
   </div>
@@ -27,7 +32,7 @@
 
 <script>
 
-  export default (props, { }) => {
+  export default (props, { $f7, $on }) => {
 
     let categories  = []
     let recipiesData = []
@@ -38,49 +43,33 @@
       categories = data.categories;
       
       categories.forEach(function(categorie){
-        console.log(categorie)
         $('.catalog').append(`
-        <div class="card card-expandable categorie" categorie=` + categorie.strCategory + `>
+        <li><a href=""> <div class="card categorie" categorie=` + categorie.strCategory + `>
           <!-- card content -->
           <div class="card-content padding` + categorie.strCategory + `">
-            <h2 class="title">` + categorie.strCategory + `</h2>
-            <img src="`+ categorie.strCategoryThumb + `" />
-            <a href="#" class="link card-close card-opened-fade-in color-red" style="position: absolute; right: 15px; top: 15px"><i class="icon f7-icons">xmark_circle_fill</i></a>
-             <!-- put all content here -->
+            <h2 class="title padding-left item-title">` + categorie.strCategory + `</h2>
+            <div class="display-flex justify-content-center"><img src="`+ categorie.strCategoryThumb + `" /></div>
           </div>
-        </div>`)
+        </div></a></li>`)
       });
 
-      $('.categorie').on('click', function (e) {
-        categorie = $(this).attr('categorie');
-        console.log('test')
-        if (recipiesData[categorie] !== undefined) {
-          return;
-        }  
-
-        app.request.get('https://www.themealdb.com/api/json/v1/1/filter.php?c=' + categorie, function (data) {
-          data = JSON.parse(data);
-          
-          //$('.page-content').append('<div>' + data.categories[0].strCategory + '</div>')
-          recipiesData[categorie] = data.meals;
-          
-          recipiesData[categorie].forEach(function(recipe){
-            console.log(recipe)
-            $('.' + categorie).append(`
-            <div class="card card-expandable recipe" categorie=` + recipe.strMeal + `>
-              <!-- card content -->
-              <div class="card-content padding">
-                <h2 class="title">` + recipe.strMeal + `</h2>
-                <img src="`+ recipe.strMealThumb + `" />
-                <a href="#" class="link card-close card-opened-fade-in color-red" style="position: absolute; right: 15px; top: 15px"><i class="icon f7-icons">xmark_circle_fill</i></a>
-                <!-- put all content here -->
-              </div>
-            </div>`)
-          });
+      var searchbar = $f7.searchbar.create({
+          el: '.searchbar',
+          searchContainer: '.list',
+          searchIn: '.item-title',
+          on: {
+            search(sb, query, previousQuery) {
+              console.log(query, previousQuery);
+              console.log(sb)
+            }
+          }
         });
-      });
-      
     });
+
+    $on('pageInit', () => {
+        // create searchbar
+        
+      })
 
     return $render;
   }
