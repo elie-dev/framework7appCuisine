@@ -3,34 +3,26 @@
     <div class="navbar">
       <div class="navbar-bg"></div>
       <div class="navbar-inner sliding">
-        <div class="title">Catalog</div>
+        <div class="title to_cat">Catalog</div>
+        <!-- <a href="/catalog-category/1" class="tab-link">
+          <span class="tabbar-label">Category du catalog</span>
+        </a> -->
       </div>
     </div>
     <div class="page-content catalog">
-      <div class="card card-expandable">
-        <!-- card content -->
-        <div class="card-content">
-          tet
-          <div class="card card-expandable">
-            <!-- card content -->
-            <div class="card-content">
-              tet
-              <!-- put all content here -->
-            </div>
-          </div>
-          <!-- put all content here -->
-        </div>
-      </div>
+
     </div>
   </div>
 </template>
 
 <script>
 
+  // AFFICHER TOUTES LES CATEGORY ET REDIRIGER VERS LA CAT
   export default (props, { }) => {
-
+    
     let categories  = []
     let recipiesData = []
+
     app.request.get('https://www.themealdb.com/api/json/v1/1/categories.php', function (data) {
       data = JSON.parse(data);
       
@@ -45,41 +37,23 @@
           <div class="card-content padding` + categorie.strCategory + `">
             <h2 class="title">` + categorie.strCategory + `</h2>
             <img src="`+ categorie.strCategoryThumb + `" />
-            <a href="#" class="link card-close card-opened-fade-in color-red" style="position: absolute; right: 15px; top: 15px"><i class="icon f7-icons">xmark_circle_fill</i></a>
+            <a href="/catalog-category/`+ categorie.strCategory +`" class="link card-close card-opened-fade-in color-red" style="position: absolute; right: 15px; top: 15px">
+              <i class="icon f7-icons">xmark_circle_fill</i>
+            </a>
+            
+            <div class="list">
+              <div class="list-group">
+                <ul>
+                  <li class="list-group-title">Recettes lié à la catégorie</li>
+                  <li class="item-content">Recette un</li>
+                  <li class="item-content">Recette deux</li>
+                </ul>
+              </div>
+            </div>  
              <!-- put all content here -->
           </div>
         </div>`)
       });
-
-      $('.categorie').on('click', function (e) {
-        categorie = $(this).attr('categorie');
-        console.log('test')
-        if (recipiesData[categorie] !== undefined) {
-          return;
-        }  
-
-        app.request.get('https://www.themealdb.com/api/json/v1/1/filter.php?c=' + categorie, function (data) {
-          data = JSON.parse(data);
-          
-          //$('.page-content').append('<div>' + data.categories[0].strCategory + '</div>')
-          recipiesData[categorie] = data.meals;
-          
-          recipiesData[categorie].forEach(function(recipe){
-            console.log(recipe)
-            $('.' + categorie).append(`
-            <div class="card card-expandable recipe" categorie=` + recipe.strMeal + `>
-              <!-- card content -->
-              <div class="card-content padding">
-                <h2 class="title">` + recipe.strMeal + `</h2>
-                <img src="`+ recipe.strMealThumb + `" />
-                <a href="#" class="link card-close card-opened-fade-in color-red" style="position: absolute; right: 15px; top: 15px"><i class="icon f7-icons">xmark_circle_fill</i></a>
-                <!-- put all content here -->
-              </div>
-            </div>`)
-          });
-        });
-      });
-      
     });
 
     return $render;
