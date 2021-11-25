@@ -45,7 +45,8 @@
       
       categories.forEach(function(categorie){
         $('.catalog').append(`
-        <li><a href=""> <div class="card categorie" categorie=` + categorie.strCategory + `>
+        <li><a href="/catalog-category/`+ categorie.strCategory +`">
+            <div class="card categorie" categorie=` + categorie.strCategory + `>
           <!-- card content -->
           <div class="card-content padding` + categorie.strCategory + `">
             <h2 class="title padding-left item-title">` + categorie.strCategory + `</h2>
