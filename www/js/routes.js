@@ -87,7 +87,11 @@ var routes = [
   },
   {
     path: '/catalog/',
-    componentUrl: './pages/catalog.html',
+    componentUrl: './pages/catalog.html/',
+  },
+  {
+    path: '/catalog-category/:index',
+    componentUrl: './pages/catalog-category.html/',
   },
   {
     path: '/product/:id/',
