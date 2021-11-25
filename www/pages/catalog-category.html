@@ -1,0 +1,51 @@
+<template>
+    <div class="page" data-name="catalog-category">
+      <div class="navbar">
+        <div class="navbar-bg"></div>
+        <div class="navbar-inner sliding">
+          <div class="title">
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="page-content list-recipe">
+      </div>
+    </div>
+  </template>
+
+
+  <script>
+    // AFFICHER LE NOM DE LA CATEGORIE + PLAT ASSOCIER
+    export default (props, { }) => {
+
+      let categories  = []
+      let recipes  = []
+
+      app.on('pageInit', function (page) {
+          var index = page.route.params.index;    
+          $('.title').append(`<div> Category `+ index +`</div>`) 
+
+
+      app.request.get('https://www.themealdb.com/api/json/v1/1/filter.php?c=' + index, function (data) {
+      data = JSON.parse(data);
+      console.log(data)
+      recipes = data.meals;
+      
+      recipes.forEach(function(recipe){
+        console.log(recipe)
+        $('.list-recipe').append(`
+        <div class="card card-expandable categorie" categorie=` + recipe.strMeal + `>
+          <div class="card-content padding">
+            <h2 class="title">` + recipe.strMeal + `</h2>
+            <img class="lazy lazy-fade-in demo-lazy" src="`+ recipe.strMealThumb + `" />
+          </div>
+        </div>`)
+      });
+    });
+  });
+      return $render;
+    }
+  
+  </script>
+  

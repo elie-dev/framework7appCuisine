@@ -36,6 +36,7 @@
 
     let categories  = []
     let recipiesData = []
+
     app.request.get('https://www.themealdb.com/api/json/v1/1/categories.php', function (data) {
       data = JSON.parse(data);
       
@@ -44,7 +45,8 @@
       
       categories.forEach(function(categorie){
         $('.catalog').append(`
-        <li><a href=""> <div class="card categorie" categorie=` + categorie.strCategory + `>
+        <li><a href="/catalog-category/`+ categorie.strCategory +`">
+            <div class="card categorie" categorie=` + categorie.strCategory + `>
           <!-- card content -->
           <div class="card-content padding` + categorie.strCategory + `">
             <h2 class="title padding-left item-title">` + categorie.strCategory + `</h2>
