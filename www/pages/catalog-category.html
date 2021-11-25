@@ -21,27 +21,114 @@
 
       let categories  = []
       let recipes  = []
+      let recipiesData = []
 
       app.on('pageInit', function (page) {
-          var index = page.route.params.index;    
-          $('.title').append(`<div> Category `+ index +`</div>`) 
+        var index = page.route.params.index;    
+        $('.title').append(`<div> Category `+ index +`</div>`) 
 
+        app.request.get('https://www.themealdb.com/api/json/v1/1/filter.php?c=' + index, function (data) {
+        data = JSON.parse(data);
+        console.log(data)
+        recipes = data.meals;
+        
+        recipes.forEach(function(recipe){
+          console.log(recipe)
+          $('.list-recipe').append(`
+          <h2 class="title justify-content-center margin-left">` + recipe.strMeal + `</h2>
 
-      app.request.get('https://www.themealdb.com/api/json/v1/1/filter.php?c=' + index, function (data) {
-      data = JSON.parse(data);
-      console.log(data)
-      recipes = data.meals;
-      
-      recipes.forEach(function(recipe){
-        console.log(recipe)
-        $('.list-recipe').append(`
-        <div class="card card-expandable categorie" categorie=` + recipe.strMeal + `>
-          <div class="card-content padding">
-            <h2 class="title">` + recipe.strMeal + `</h2>
-            <img class="lazy lazy-fade-in demo-lazy" src="`+ recipe.strMealThumb + `" />
+          <div class="card card-expandable recette" idRecette=` + recipe.idMeal + `>
+            <div class="card-content recette` + recipe.idMeal + `">
+              <div class="image display-flex justify-content-center" width="100%" style="height: 300px">
+                <img style="height:auto; width:100%;" src="`+ recipe.strMealThumb + `">
+                    <a href="#" class="link card-close card-opened-fade-in color-red"
+                      style="position: absolute; right: 15px; top: 15px">
+                      <i class="icon f7-icons">xmark_circle_fill</i>
+                    </a>
+                  </div>
+                </div>
           </div>
-        </div>`)
+          `)
+        });
+
+
+        $('.recette').on('click', function (e) {
+        idRecette = $(this).attr('idRecette');
+        if (recipiesData[idRecette] !== undefined) {
+          return;
+        }  
+
+        app.request.get('https://www.themealdb.com/api/json/v1/1/lookup.php?i=' + idRecette, function (data) {
+          data = JSON.parse(data);
+          console.log(data)
+          //$('.page-content').append('<div>' + data.categories[0].strCategory + '</div>')
+          recipiesData[idRecette] = data.meals;
+
+            $('.recette' + idRecette).append(`
+            <div class="card-content-padding text-align-center">
+              <h2 class="titre">` + data.meals[0].strMeal + `</h2>
+
+              <h4 class="origine">Origine : `+ data.meals[0].strArea +`</h4>  
+
+              <div class="row">
+                <div class="col-60 padding-left">
+                  <h4>Ingrédients :</h4>
+                  <p class="Ingredient1">`+ data.meals[0].strIngredient1 +`</p>
+                  <p class="Ingredient2">`+ data.meals[0].strIngredient2 +`</p>
+                  <p class="Ingredient3">`+ data.meals[0].strIngredient3 +`</p>
+                  <p class="Ingredient4">`+ data.meals[0].strIngredient4 +`</p>
+                  <p class="Ingredient5">`+ data.meals[0].strIngredient5 +`</p>
+                  <p class="Ingredient6">`+ data.meals[0].strIngredient6 +`</p>
+                  <p class="Ingredient7">`+ data.meals[0].strIngredient7 +`</p>
+                  <p class="Ingredient8">`+ data.meals[0].strIngredient8 +`</p>
+                  <p class="Ingredient9">`+ data.meals[0].strIngredient9 +`</p>
+                  <p class="Ingredient10">`+ data.meals[0].strIngredient10 +`</p>
+                  <p class="Ingredient11">`+ data.meals[0].strIngredient11 +`</p>
+                  <p class="Ingredient12">`+ data.meals[0].strIngredient12 +`</p>
+                  <p class="Ingredient13">`+ data.meals[0].strIngredient13 +`</p>
+                  <p class="Ingredient14">`+ data.meals[0].strIngredient14 +`</p>
+                  <p class="Ingredient15">`+ data.meals[0].strIngredient15 +`</p>
+                  <p class="Ingredient16">`+ data.meals[0].strIngredient16 +`</p>
+                  <p class="Ingredient17">`+ data.meals[0].strIngredient17 +`</p>
+                  <p class="Ingredient18">`+ data.meals[0].strIngredient18 +`</p>
+                  <p class="Ingredient19">`+ data.meals[0].strIngredient19 +`</p>
+                  <p class="Ingredient20">`+ data.meals[0].strIngredient20 +`</p>
+                </div>
+              
+                <div class="text-align-center col-40 padding-right">
+                  <h4>Dosages :</h4>
+                  <p class="Mesure1">`+ data.meals[0].strMeasure1 +`</p>
+                  <p class="Mesure2">`+ data.meals[0].strMeasure2 +`</p>
+                  <p class="Mesure3">`+ data.meals[0].strMeasure3 +`</p>
+                  <p class="Mesure4">`+ data.meals[0].strMeasure4 +`</p>
+                  <p class="Mesure5">`+ data.meals[0].strMeasure5 +`</p>
+                  <p class="Mesure6">`+ data.meals[0].strMeasure6 +`</p>
+                  <p class="Mesure7">`+ data.meals[0].strMeasure7 +`</p>
+                  <p class="Mesure8">`+ data.meals[0].strMeasure8 +`</p>
+                  <p class="Mesure9">`+ data.meals[0].strMeasure9 +`</p>
+                  <p class="Mesure10">`+ data.meals[0].strMeasure10 +`</p>
+                  <p class="Mesure11">`+ data.meals[0].strMeasure11 +`</p>
+                  <p class="Mesure12">`+ data.meals[0].strMeasure12 +`</p>
+                  <p class="Mesure13">`+ data.meals[0].strMeasure13 +`</p>
+                  <p class="Mesure14">`+ data.meals[0].strMeasure14 +`</p>
+                  <p class="Mesure15">`+ data.meals[0].strMeasure15 +`</p>
+                  <p class="Mesure16">`+ data.meals[0].strMeasure16 +`</p>
+                  <p class="Mesure17">`+ data.meals[0].strMeasure17 +`</p>
+                  <p class="Mesure18">`+ data.meals[0].strMeasure18 +`</p>
+                  <p class="Mesure19">`+ data.meals[0].strMeasure19 +`</p>
+                  <p class="Mesure20">`+ data.meals[0].strMeasure20 +`</p>
+                </div>
+              </div>
+
+              <h4>Instructions de la recette :</h4>
+              <p class="recette text-align-justify">`+ data.meals[0].strInstructions +`</p>
+
+              <h4 class="category">Catégorie :  `+ data.meals[0].strCategory +`</h4>
+            </div>`)
+        });
       });
+
+      
     });
   });
       return $render;
