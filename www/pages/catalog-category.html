@@ -6,7 +6,7 @@
           <a href="/catalog/" class="link card-close card-opened-fade-in">
             <i class="icon f7-icons">arrow_left_round_fill</i>
           </a>
-          <div class="title">
+          <div class="title title-page">
             
           </div>
         </div>
@@ -29,9 +29,9 @@
       app.on('pageInit', function (page) {
         var index = page.route.params.index; 
         if(index === undefined) {
-          $('.title').html('catalog') 
+          $('.title-page').html('catalog') 
         } else {
-          $('.title').html(`Category `+ index) 
+          $('.title-page').html(`Category `+ index) 
         }
           
 
