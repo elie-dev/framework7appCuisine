@@ -3,6 +3,9 @@
       <div class="navbar">
         <div class="navbar-bg"></div>
         <div class="navbar-inner sliding">
+          <a href="/catalog/" class="link card-close card-opened-fade-in">
+            <i class="icon f7-icons">arrow_left_round_fill</i>
+          </a>
           <div class="title">
             
           </div>
@@ -24,8 +27,13 @@
       let recipiesData = []
 
       app.on('pageInit', function (page) {
-        var index = page.route.params.index;    
-        $('.title').append(`<div> Category `+ index +`</div>`) 
+        var index = page.route.params.index; 
+        if(index === undefined) {
+          $('.title').html('catalog') 
+        } else {
+          $('.title').html(`Category `+ index) 
+        }
+          
 
         app.request.get('https://www.themealdb.com/api/json/v1/1/filter.php?c=' + index, function (data) {
         data = JSON.parse(data);
