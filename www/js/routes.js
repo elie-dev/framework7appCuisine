@@ -15,7 +15,9 @@ var routes = [
           $('.origine').append('<div>' + data.meals[0].strArea + '</div>')
           $('.titre').append('<div>' + data.meals[0].strMeal + '</div>')
           $('.recette').append('<div>' + data.meals[0].strInstructions + '</div>')
+          $('.categorie').append('<div>' + data.meals[0].strCategory + '</div>')
           $('.image').append('<img style="height:auto; width:100%;" src="'+ data.meals[0].strMealThumb +'">')
+
 
           $('.Ingredient1').append('<div>' + data.meals[0].strIngredient1 + '</div>')
           $('.Ingredient2').append('<div>' + data.meals[0].strIngredient2 + '</div>')
